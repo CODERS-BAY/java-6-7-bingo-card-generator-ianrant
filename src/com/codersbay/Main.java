@@ -4,34 +4,27 @@ public class Main {
 
     public static int[] ALL_BINGO_NUMBERS = new int[25];
 
-    public static boolean zeroIndexExists() {
-        boolean zeroExists = true;
-        for (int i : ALL_BINGO_NUMBERS) {
+    public static boolean zeroLeftInArray() {
+        for (int i = 0; i < ALL_BINGO_NUMBERS.length; i++) {
             if (ALL_BINGO_NUMBERS[i] == 0) {
-                zeroExists = true;
-            } else {
-                zeroExists = false;
+                return true;
             }
-            break;
         }
-        return zeroExists;
+        return false;
     }
 
     public static boolean newNumberIsUnique(int numberToTest) {
-        boolean numberAllowed = false;
-        for (int i : ALL_BINGO_NUMBERS) {
-            if (ALL_BINGO_NUMBERS[i] != numberToTest && numberToTest != 0) {
-                numberAllowed = true;
-            } else {
-                numberAllowed = false;
+        for (int i = 0; i < ALL_BINGO_NUMBERS.length; i++) {
+            if (ALL_BINGO_NUMBERS[i] == numberToTest) {
+                return false;
             }
-            break;
         }
-        return numberAllowed;
+        return true;
+
     }
 
-    public static void addNumber(int placeInArray, int numberToAdd) {
-        ALL_BINGO_NUMBERS[placeInArray - 1] = numberToAdd;
+    public static void addNumber(int placeAtIndex, Integer numberToAdd) {
+        ALL_BINGO_NUMBERS[placeAtIndex] = numberToAdd;
     }
 
     public static int createRandom() {
@@ -39,62 +32,44 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int rowOneStart = 1;
-        int rowTwoStart = 6;
-        int rowThreeStart = 11;
-        int rowFourStart = 16;
-        int rowFiveStart = 21;
 
-        while (zeroIndexExists()) {
+        int clusterOneStart = 0;
+        int clusterTwoStart = 5;
+        int clusterThreeStart = 10;
+        int clusterFourStart = 15;
+        int clusterFiveStart = 20;
 
+        while (zeroLeftInArray()) {
             Integer randomNumber = createRandom();
+            if (newNumberIsUnique(randomNumber)) {
+                if (randomNumber <= 15 && randomNumber > 0 && clusterOneStart < 5) {
+                    addNumber(clusterOneStart, randomNumber);
+                    clusterOneStart++;
 
-            //System.out.print(randomNumber);
+                } else if (randomNumber <= 30 && randomNumber > 15 && clusterTwoStart < 10) {
+                    addNumber(clusterTwoStart, randomNumber);
+                    clusterTwoStart++;
 
-            if (randomNumber <= 15 && randomNumber != 0 && rowOneStart < 6) {
-                if (newNumberIsUnique(randomNumber)) {
-                    addNumber(rowOneStart, randomNumber);
-                    rowOneStart++;
-                } else {
-                    break;
-                }
+                } else if (randomNumber <= 45 && randomNumber > 30 && clusterThreeStart < 15) {
+                    addNumber(clusterThreeStart, randomNumber);
+                    clusterThreeStart++;
 
+                } else if (randomNumber <= 60 && randomNumber > 45 && clusterFourStart < 20) {
+                    addNumber(clusterFourStart, randomNumber);
+                    clusterFourStart++;
 
-            } else if (randomNumber <= 30 && randomNumber != 0 && rowTwoStart < 11) {
-                if (newNumberIsUnique(randomNumber)) {
-                    addNumber(rowTwoStart, randomNumber);
-                    rowTwoStart++;
-                } else {
-                    break;
-                }
-
-            } else if (randomNumber <= 45 && randomNumber != 0 && rowThreeStart < 16) {
-                if (newNumberIsUnique(randomNumber)) {
-                    addNumber(rowThreeStart, randomNumber);
-                    rowThreeStart++;
-                } else {
-                    break;
-                }
-
-            } else if (randomNumber <= 60 && randomNumber != 0 && rowFourStart < 21) {
-                if (newNumberIsUnique(randomNumber)) {
-                    addNumber(rowFourStart, randomNumber);
-                    rowFourStart++;
-                } else {
-                    break;
-                }
-
-            } else if (randomNumber <= 75 && randomNumber != 0 && rowFiveStart <= 25) {
-                if (newNumberIsUnique(randomNumber)) {
-                    addNumber(rowFiveStart, randomNumber);
-                    rowFiveStart++;
-                } else {
-                    break;
+                } else if (randomNumber <= 75 && randomNumber > 60 && clusterFiveStart < 25) {
+                    addNumber(clusterFiveStart, randomNumber);
+                    clusterFiveStart++;
                 }
             }
         }
 
-        String output = "";
+        //System.out.println(Arrays.toString(ALL_BINGO_NUMBERS));
+
+
+        String output = "B   I   N   G   O\n";
+        output += "-----------------\n";
         output += ALL_BINGO_NUMBERS[0] + "  ";
         output += ALL_BINGO_NUMBERS[5] + "  ";
         output += ALL_BINGO_NUMBERS[10] + "  ";
@@ -109,7 +84,7 @@ public class Main {
         output += "\n";
         output += ALL_BINGO_NUMBERS[2] + "  ";
         output += ALL_BINGO_NUMBERS[7] + "  ";
-        output += "_  ";
+        output += "B  ";
         output += ALL_BINGO_NUMBERS[17] + "  ";
         output += ALL_BINGO_NUMBERS[22] + "  ";
         output += "\n";
@@ -124,7 +99,6 @@ public class Main {
         output += ALL_BINGO_NUMBERS[14] + "  ";
         output += ALL_BINGO_NUMBERS[19] + "  ";
         output += ALL_BINGO_NUMBERS[24] + "  ";
-
 
         System.out.println(output);
 
